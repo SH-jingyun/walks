@@ -118,6 +118,9 @@ Class Task extends AbstractController {
                 $sql = 'SELECT counter_min, award_min FROM t_award_config WHERE config_type = ? ORDER BY config_id ASC';
                 $checkInConfigList = $this->db->getAll($sql, $receiveType);
                 foreach ($checkInConfigList as $config) {
+                    if ($versionCode >= 232 && $config['counter_min'] == 7) {
+                        $config['award_min'] *= 100;
+                    }
                     $taskInfo['checkInInfo'][] = array_merge(array('day' => $config['counter_min'], 'award' => $config['award_min']), $checkInInfo[$i] ?? array());
                     $i++;
                 }
