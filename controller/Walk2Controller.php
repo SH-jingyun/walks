@@ -86,7 +86,7 @@ Class Walk2Controller extends WalkController {
                     if (1 == $receiveInfo['receive_status']) {
                         return new ApiReturn('', 401, '您已领取过该奖励');
                     } else {
-                        $doubleStatus = $this->inputData['isDouble'] ?? 0;
+                        $doubleStatus = (isset($this->inputData['isDouble']) && $this->inputData['isDouble']) ? 1 : 0;
                         $updateStatus = $this->model->gold->updateGold(array( 'user_id' => $this->userId, 'gold' => $this->inputData['num'] * ($doubleStatus + 1), 'source' => $this->inputData['type'], 'type' => 'in', 'relation_id' => $this->inputData['id']));
                         if (TRUE === $updateStatus) {
                             $walkReward->receiveSuccess($this->inputData['id'], $doubleStatus);
@@ -119,7 +119,7 @@ Class Walk2Controller extends WalkController {
                         $activityInfo['activity_award_min'] = 5000;
                     }
                 } else {
-                    $doubleStatus = $this->inputData['isDouble'] ?? 0;
+                    $doubleStatus = (isset($this->inputData['isDouble']) && $this->inputData['isDouble']) ? 1 : 0;
                 }
 
                 $updateStatus = $this->model->gold->updateGold(array( 'user_id' => $this->userId, 'gold' => $activityInfo['activity_award_min'] * ($doubleStatus + 1), 'source' => $this->inputData['type'], 'type' => 'in', 'relation_id' => 0));
@@ -150,8 +150,8 @@ Class Walk2Controller extends WalkController {
                     $doubleStatus = 0;
                     $secondDoubleStatus = 0;
                 } else {
-                    $doubleStatus = $this->inputData['isDouble'] ?? 0;
-                    $secondDoubleStatus = $this->inputData['secondDou'] ?? 0;
+                    $doubleStatus = (isset($this->inputData['isDouble']) && $this->inputData['isDouble']) ? 1 : 0;
+                    $secondDoubleStatus = (isset($this->inputData['secondDou']) && $this->inputData['secondDou']) ? 1 : 0;
                 }
 
                 if ($historyInfo['receive_status']) {
@@ -197,7 +197,7 @@ Class Walk2Controller extends WalkController {
                 if ($historyInfo['end_time'] && strtotime($historyInfo['end_time']) > time()) {
                     return new ApiReturn('', 403, '时间未到，请稍后再来领取');
                 }
-                $doubleStatus = $this->inputData['isDouble'] ?? 0;
+                $doubleStatus = (isset($this->inputData['isDouble']) && $this->inputData['isDouble']) ? 1 : 0;
                 $updateStatus = $this->model->gold->updateGold(array( 'user_id' => $this->userId, 'gold' => $historyInfo['receive_gold'] * ($doubleStatus + 1), 'source' => $this->inputData['type'], 'type' => 'in', 'relation_id' => $historyInfo['receive_id']));
                 //奖励金币成功
                 if (TRUE === $updateStatus) {
