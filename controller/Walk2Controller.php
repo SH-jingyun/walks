@@ -288,7 +288,7 @@ Class Walk2Controller extends WalkController {
     public function requestWithdrawalNewAction () {
         if (isset($this->inputData['amount']) && $this->inputData['amount']) {
             //是否绑定微信
-            $sql = 'SELECT unionid, openid, umeng_token, user_status FROM t_user WHERE user_id = ?';
+            $sql = 'SELECT unionid, openid, umeng_token, user_status, ali_user_id FROM t_user WHERE user_id = ?';
             $payInfo = $this->db->getRow($sql, $this->userId);
             if (!$payInfo['user_status']) {
                 return new ApiReturn('', 408, '申请失败');
@@ -324,7 +324,7 @@ Class Walk2Controller extends WalkController {
                 $this->db->exec($sql, array('user_id' => $this->userId, 'withdraw_amount' => $withdrawalAmount, 'withdraw_gold' => $withdrawalGold, 'wechat_openid' => $payInfo['openid'], 'withdraw_remark' => '友盟分值低于90分'));
                 return new ApiReturn('', 408, '申请失败');
             }
-            if (isset($payInfo['unionid']) && $payInfo['unionid'] && ($withdrawalAmount == 0.3 || (isset($payInfo['openid']) && $payInfo['openid']))) {
+            if (isset($payInfo['unionid']) && $payInfo['unionid'] && ($withdrawalAmount == 0.3 || (isset($payInfo['ali_user_id']) && $payInfo['ali_user_id']))) {
                 //1元提现只能一次 to do
                 switch ($withdrawalAmount) {
                     case 0.3:
