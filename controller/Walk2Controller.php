@@ -324,7 +324,7 @@ Class Walk2Controller extends WalkController {
                 $this->db->exec($sql, array('user_id' => $this->userId, 'withdraw_amount' => $withdrawalAmount, 'withdraw_gold' => $withdrawalGold, 'wechat_openid' => $payInfo['openid'], 'withdraw_remark' => '友盟分值低于90分'));
                 return new ApiReturn('', 408, '申请失败');
             }
-            if (isset($payInfo['unionid']) && $payInfo['unionid'] && isset($payInfo['openid']) && $payInfo['openid']) {
+            if (isset($payInfo['unionid']) && $payInfo['unionid'] && ($withdrawalAmount == 0.3 || (isset($payInfo['openid']) && $payInfo['openid']))) {
                 //1元提现只能一次 to do
                 switch ($withdrawalAmount) {
                     case 0.3:
