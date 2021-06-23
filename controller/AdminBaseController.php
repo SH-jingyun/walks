@@ -9,6 +9,7 @@ Class AdminBaseController extends AbstractController {
                 if (md5(JY_WALK_ADMIN_PASSWORD) == $_POST['password']) {
                     $sql = 'insert into t_back_index_log(user_name,ip_address,operation) values(?,?,?)';
                     $this->db->exec($sql, 'username',$_SERVER['REMOTE_ADDR'] ?? '','用户登录');
+                    echo "添加日志成功\n";
                     return array();
                 }
             }
