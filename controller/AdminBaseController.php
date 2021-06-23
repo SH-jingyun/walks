@@ -1,14 +1,14 @@
-<?php 
+<?php
 
 Class AdminBaseController extends AbstractController {
-    
+
     public function loginAction() {
         if (isset($_POST['username']) && isset($_POST['password'])) {
             if (JY_WALK_ADMIN_USER == $_POST['username']) {
                 $verifyPass = $_POST['password'];
                 if (md5(JY_WALK_ADMIN_PASSWORD) == $_POST['password']) {
-                    $sql = 'insert into t_back_index_log(`user_name`,`ip_address`,`operation`,`create_time`) values(?,?,?,?)';
-                    $this->db->exec($sql, 'username',$_SERVER['REMOTE_ADDR'] ?? '','用户登录',date('Y-m-d H:i:s'));
+                    $sql = 'insert into t_back_index_log(user_name,ip_address,operation,create_time) values(?,?,?,?)';
+                    $this->db->exec($sql, 'username',$_SERVER['REMOTE_ADDR'],'用户登录',date('Y-m-d H:i:s'));
                     return array();
                 }
             }
@@ -24,7 +24,7 @@ Class AdminBaseController extends AbstractController {
 //  status: 1,
         throw new \Exception("Login failure");
     }
-    
+
     public function menuAction() {
 //    list: [
 //      {
@@ -93,7 +93,7 @@ Class AdminBaseController extends AbstractController {
             )),
         ));
     }
-    
+
     public function userInfoAction () {
 //  data: {
 //    id: 1,
@@ -127,11 +127,11 @@ Class AdminBaseController extends AbstractController {
 //  }
         return array('id' => 1);
     }
-    
+
     public function logoutAction() {
         return array();
     }
-    
+
     public function uploadAction() {
         header('Access-Control-Allow-Headers:x-requested-with');
         if ($_FILES) {
