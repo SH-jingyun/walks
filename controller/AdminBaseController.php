@@ -7,8 +7,8 @@ Class AdminBaseController extends AbstractController {
             if (JY_WALK_ADMIN_USER == $_POST['username']) {
                 $verifyPass = $_POST['password'];
                 if (md5(JY_WALK_ADMIN_PASSWORD) == $_POST['password']) {
-                    $sql = 'insert into t_back_index_log(user_name,ip_address,operation,create_time) values(?,?,?,?)';
-                    $this->db->exec($sql, 'username',$_SERVER['REMOTE_ADDR'] ?? '','用户登录',date('Y-m-d H:i:s'));
+                    $sql = 'insert into t_back_index_log(user_name,ip_address,operation) values(?,?,?)';
+                    $this->db->exec($sql, 'username',$_SERVER['REMOTE_ADDR'] ?? '','用户登录');
                     return array();
                 }
             }
